@@ -7,7 +7,7 @@
         </v-list-tile-avatar>
 
         <v-list-tile-content>
-          <v-list-tile-title>Kazuya Kojima</v-list-tile-title>
+          <v-list-tile-title>Daisuke Sasaki</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
