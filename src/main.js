@@ -8,16 +8,17 @@ import firebase from 'firebase'
 Vue.config.productionTip = false
 
 
-  // Initialize Firebase
-const config = {
-  apiKey: "AIzaSyDc4c7mlhZT0IWH-tteNj5WGDIXcxG1cFY",
-  authDomain: "my-address-pj-78a96.firebaseapp.com",
-  databaseURL: "https://my-address-pj-78a96.firebaseio.com",
-  projectId: "my-address-pj-78a96",
-  storageBucket: "my-address-pj-78a96.appspot.com",
-  messagingSenderId: "406233405488"
+var firebaseConfig = {
+  apiKey: "AIzaSyBCn-f6Zyf3nkInd5iwx1xsZXSGSdqnpqo",
+  authDomain: "sample-app-vue-cli.firebaseapp.com",
+  projectId: "sample-app-vue-cli",
+  storageBucket: "sample-app-vue-cli.appspot.com",
+  messagingSenderId: "262254707985",
+  appId: "1:262254707985:web:751d377f76f1c1a277b8b0",
+  measurementId: "G-3EC4FJ95YK"
 };
-firebase.initializeApp(config);
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
 
 new Vue({
   router,

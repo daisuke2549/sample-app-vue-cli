@@ -20,13 +20,23 @@ export default new Vuex.Store({
     toggleSideMenu (state) {
       state.drawer = !state.drawer
     },
-    addAddress (state, address) {
+    addAddress (state, {id, address}) {
+      address.id = id
       state.addresses.push(address)
+    },
+    updateAddress (state, { id, address }) {
+      const index = state.addresses.findIndex(address => address.id === id)
+      state.addresses[index] = address
     }
   },
   actions: {
     setLoginUser ({ commit }, user) {
       commit('setLoginUser', user)
+    },
+    fetchAddresses ({ getters, commit }) {
+      firebase.firestore().collection(`users/${getters.uid}/addresses`).get().then(snapshot => {
+        snapshot.forEach(doc => commit('addAddress', {id: doc.id, address: doc.data()}))
+      })
     },
     login () {
       const google_auth_provider = new firebase.auth.GoogleAuthProvider()
@@ -41,14 +51,25 @@ export default new Vuex.Store({
     toggleSideMenu ({ commit }) {
       commit('toggleSideMenu')
     },
-    addAddress ({ commit }, address) {
-      if (this.getters.uid) firebase.firestore().collection('users/${getters.uid}/addresses').add(address)
-      commit('addAddress', address)
+    addAddress ({getters, commit }, address) {
+      if (this.getters.uid) {
+      firebase.firestore().collection(`users/${getters.uid}/addresses`).add(address).then(doc => {
+        commit('addAddress', {id: doc.id,  address})
+      })
+      }
+    },
+    updateAddress ({ getters, commit }, { id, address }) {
+      if (getters.uid) {
+        firebase.firestore().collection(`users/${getters.uid}/addresses`).doc(id).update(address).then(() => {
+          commit('updateAddress', { id, address })
+        })
+      }
     }
   },
   getters: {
     userName: state => state.login_user ? state.login_user.displayName : '',
     photoURL: state => state.login_user ? state.login_user.photoURL : '',
-    uid: state => state.login_user ? state.login_user.uid : null
+    uid: state => state.login_user ? state.login_user.uid : null,
+    getAddressById: state => id => state.addresses.find(address => address.id === id)
   }
 })
