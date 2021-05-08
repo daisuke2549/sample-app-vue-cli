@@ -35,8 +35,13 @@ export default {
       this.$router.push({ name: 'addresses' })
     }
   },
+  data () {
+    return {
+      address: {}
+    }
+  },
   methods: {
-     submit () {
+    submit () {
       if (this.$route.params.address_id) {
         this.updateAddress({ id: this.$route.params.address_id, address: this.address })
       } else {
